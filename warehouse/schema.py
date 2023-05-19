@@ -1,4 +1,3 @@
-import uuid
 from sqlalchemy.sql import func
 import sqlalchemy.types as types
 from dataclasses import dataclass
@@ -19,7 +18,7 @@ class Category(Base):
 
     __tablename__ = 'category_table'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(100), nullable=True)
+    name = Column(String(100), nullable=False, unique=True)
     create_at = Column(DateTime(timezone=False), server_default=func.now())
 
 

@@ -6,3 +6,4 @@ venv/
 *.db
 *.index
 **/.dbdata/
+**/.pytest_cache/

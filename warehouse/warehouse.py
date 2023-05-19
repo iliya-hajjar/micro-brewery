@@ -18,7 +18,7 @@ session = Session()
 
 @app.route('/api/v1/products', methods=['GET'])
 def get_products():
-    return jsonify(session.query(Supplier).all())
+    return jsonify(session.query(Product).all())
 
 
 @app.route('/api/v1/product/<int:id>', methods=['GET'])
@@ -33,9 +33,9 @@ def set_product():
         product = Product(**data)
         session.add(product)
         session.commit()
-        return jsonify({"status": 200})
+        return jsonify({"status": 200, "id": product.id})
     except Exception as e:
-        abort(400, 'Can not add new product !')
+        abort(400, e)
 
 
 @app.route('/api/v1/suppliers', methods=['GET'])
@@ -55,7 +55,7 @@ def set_supplier():
         supplier = Supplier(**data)
         session.add(supplier)
         session.commit()
-        return jsonify({"status": 200})
+        return jsonify({"status": 200, "id": supplier.id})
     except Exception as e:
         abort(400, 'Can not add new supplier !')
 
@@ -77,7 +77,7 @@ def set_category():
         category = Category(**data)
         session.add(category)
         session.commit()
-        return jsonify({"status": 200})
+        return jsonify({"status": 200, "id": category.id})
     except Exception as e:
         abort(400, 'Can not add new category !')
 
