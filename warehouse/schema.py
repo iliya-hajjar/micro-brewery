@@ -1,5 +1,4 @@
 import uuid
-from utils.uid import UUID
 from sqlalchemy.sql import func
 import sqlalchemy.types as types
 from dataclasses import dataclass
@@ -33,9 +32,9 @@ class Supplier(Base):
     create_at: str
 
     __tablename__ = 'supplier_table'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=True)
-    address = Column(Text(300), nullable=False)
+    address = Column(Text(300), nullable=True)
     category_id = Column(Integer, ForeignKey(Category.id))
     category = relationship('Category', foreign_keys='Supplier.category_id')
     create_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -56,7 +55,7 @@ class Product(Base):
     updated_at: str
 
     __tablename__ = 'product_table'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False)
     price = Column(FLOAT, nullable=False)
     brand = Column(String(100), nullable=False)
@@ -64,7 +63,7 @@ class Product(Base):
     location = Column(String(50), nullable=False)
     description = Column(Text, nullable=False)
 
-    supplier_id = Column(UUID(as_uuid=True), ForeignKey(Supplier.id))
+    supplier_id = Column(Integer, ForeignKey(Supplier.id))
     supplier = relationship('Supplier', foreign_keys='Product.supplier_id')
 
     category_id = Column(Integer, ForeignKey(Category.id))
