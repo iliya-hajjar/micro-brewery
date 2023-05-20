@@ -33,11 +33,14 @@ def get_order(id):
 
 @app.route('/api/v1/order/<int:id>', methods=['PUT'], strict_slashes=False)
 def update_order(id):
-    data = request.get_json()
-    order = session.query(Order).filter_by(id=id).first()
-    order.transaction_id = data['transaction_id']
-    session.commit()
-    return jsonify({"status": 200})
+    try:
+        data = request.get_json()
+        order = session.query(Order).filter_by(id=id).first()
+        order.transaction_id = data['transaction_id']
+        session.commit()
+        return jsonify(order)
+    except Exception as e:
+        abort(400, 'Can not update order !')
 
 
 @app.route('/api/v1/order_detail', methods=['POST'], strict_slashes=False)
@@ -51,9 +54,9 @@ def set_order():
         order_details = OrderDetails(**data)
         session.add(order_details)
         session.commit()
-        return jsonify({"status": 200})
+        return jsonify({"status": 200, "order_details_id": order_details.id})
     except Exception as e:
-        abort(400, 'Can not add new product !')
+        abort(400, 'Can not add new order !')
 
 
 if __name__ == '__main__':
