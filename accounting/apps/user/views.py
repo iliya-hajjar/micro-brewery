@@ -1,45 +1,33 @@
-import jwt
-from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User
 from .serializers import UserSerializer
-from django.contrib.auth import authenticate
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, AllowAny
 
 
-class UsersViewSet(ModelViewSet):
-
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # def get_permissions(self):
-    #
-    #     if self.action == "list":
-    #         permission_classes = [IsAdminUser]
-    #     elif (
-    #         self.action == "create"
-    #         or self.action == "retrieve"
-    #         or self.action == "favs"
-    #     ):
-    #         permission_classes = [AllowAny]
-    #     else:
-    #         permission_classes = [IsSelf]
-    #     return [permission() for permission in permission_classes]
+    def list(self, request):
+        payments = User.objects.all()
+        serializer = UserSerializer(payments, many=True)
+        return Response(serializer.data)
 
-    @action(detail=False, methods=["post"])
-    def login(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
-        if not username or not password:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            encoded_jwt = jwt.encode(
-                {"pk": user.pk}, settings.SECRET_KEY, algorithm="HS256"
-            )
-            return Response(data={"token": encoded_jwt, "id": user.pk})
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    def create(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, pk=None):
+        product = User.objects.get(id=pk)
+        serializer = UserSerializer(product)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        transaction = User.objects.get(id=pk)
+        serializer = UserSerializer(instance=transaction, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

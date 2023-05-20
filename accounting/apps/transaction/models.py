@@ -22,7 +22,7 @@ class Transaction(models.Model):
     order_id = models.UUIDField()
     amount = models.FloatField()
     description = models.TextField()
-    payment_type = models.OneToOneField(Payment, on_delete=models.CASCADE)
+    payment_type = models.ForeignKey(Payment, on_delete=models.CASCADE)
     is_confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
