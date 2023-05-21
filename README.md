@@ -46,6 +46,7 @@ My goal was to add one more service auth as an API gateway but with the time I'v
 
 ### Improvementa
 
-1- Complete test for all services
-
-2- 
+- Complete tests for all services
+- Add CI/CD pipeline
+- Add precommit to apply flake8 and black
+- Add manager to all SqlAlchemy based services to have migrations
