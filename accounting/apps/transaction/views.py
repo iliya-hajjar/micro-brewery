@@ -1,3 +1,4 @@
+import requests
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
@@ -30,6 +31,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer = TransactionSerializer(instance=transaction, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        if transaction.is_confirmed:
+            payload = {"transaction_id": transaction.id}
+            requests.request("PUT", f"http://host.docker.internal:8002/api/v1/order/{transaction.order_id}",
+                             headers={'Content-Type': 'application/json'}, data=payload)
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
     def destroy(self, request, pk=None):

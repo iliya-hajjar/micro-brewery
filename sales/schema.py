@@ -3,7 +3,7 @@ import sqlalchemy.types as types
 from dataclasses import dataclass
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, Float
 
 
 Base = declarative_base()
@@ -20,6 +20,7 @@ class Order(Base):
     __tablename__ = 'order_table'
     id = Column(Integer, primary_key=True, autoincrement=True)
     transaction_id = Column(Integer, nullable=True)
+    amount = Column(Float, nullable=False)
     user_id = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=False), server_default=func.now())
     updated_at = Column(types.TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp())
