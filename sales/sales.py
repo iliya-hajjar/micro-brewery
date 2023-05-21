@@ -1,10 +1,12 @@
 import json
+import requests
 from flask import request
 from flask_cors import CORS
 from schema import Order, OrderDetails, Base
 from flask import Flask, jsonify, abort
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from producer import publish, publish_warehouse
 
 
 app = Flask(__name__)
@@ -31,30 +33,42 @@ def get_order(id):
     return jsonify(order_details_data)
 
 
-@app.route('/api/v1/order/<int:id>', methods=['PUT'], strict_slashes=False)
-def update_order(id):
+@app.route('/api/v1/order/<string:order_id>', methods=['PUT'], strict_slashes=False)
+def update_order(order_id):
+    order = session.query(Order).filter_by(id=order_id).first()
+    order_detail = session.query(OrderDetails).filter_by(order_id=order_id).first()
     try:
-        data = request.get_json()
-        order = session.query(Order).filter_by(id=id).first()
-        order.transaction_id = data['transaction_id']
+        if not order:
+            return jsonify({'error': 'Order not found'}), 404
+        order.transaction_id = order.transaction_id
         session.commit()
-        return jsonify(order)
+        publish_warehouse('order_confirmed', {'product_count': order_detail.product_count, 'product_id': order_detail.product_id})
+        return jsonify({"status": 200})
     except Exception as e:
-        abort(400, 'Can not update order !')
+        abort(400, e)
 
 
 @app.route('/api/v1/order_detail', methods=['POST'], strict_slashes=False)
 def set_order():
     try:
         data = request.get_json()
-        order = Order(user_id=data.pop('user_id', None))
-        session.add(order)
-        session.commit()
-        data['order_id'] = order.id
-        order_details = OrderDetails(**data)
-        session.add(order_details)
-        session.commit()
-        return jsonify({"status": 200, "order_details_id": order_details.id})
+        product = requests.get(f'http://host.docker.internal:8001/api/v1/product/{data["product_id"]}')
+        if product.status_code == 200:
+            if data['product_count'] <= product.json()['count']:
+                order = Order(user_id=data.pop('user_id', None), amount=data.pop('amount', None))
+                session.add(order)
+                session.commit()
+                data['order_id'] = order.id
+                order_details = OrderDetails(**data)
+                session.add(order_details)
+                session.commit()
+                publish('order_created', {'order_id': order.id, 'amount': order.amount,
+                                          'user_id': order.user_id, 'product_count': data['product_count']})
+                return jsonify({"status": 200, "order_details_id": order_details.id})
+            else:
+                return jsonify({"status": 200, "info": "this item with this amount does not exist!"})
+        else:
+            abort(400, 'Can not add new order !')
     except Exception as e:
         abort(400, 'Can not add new order !')
 
