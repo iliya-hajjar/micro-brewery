@@ -34,10 +34,10 @@ And the whole schema of the project :
 
 ### Version of the tools used for this project
 
--Ubuntu: 22.04LTS
--docker: 23.0.6
--docker compose: 2.17.3
--python: 3.9
+- Ubuntu: 22.04LTS
+- docker: 23.0.6
+- docker compose: 2.17.3
+- python: 3.9
 
 
 ### My goal
