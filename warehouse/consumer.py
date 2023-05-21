@@ -22,7 +22,11 @@ def callback(ch, method, properties, body):
             session.commit()
             print('product amount updated!')
     elif properties.content_type == 'reserve_product':
-        pass
+        product = session.query(Product).filter_by(id=data['product_id']).first()
+        if product:
+            product.count -= data['product_count']
+            product.reserved_product = data['product_count']
+            session.commit()
 
 
 channel.basic_consume(queue='warehouse', on_message_callback=callback, auto_ack=True)

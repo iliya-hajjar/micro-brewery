@@ -54,7 +54,7 @@ def set_order():
         data = request.get_json()
         product = requests.get(f'http://host.docker.internal:8001/api/v1/product/{data["product_id"]}')
         if product.status_code == 200:
-            if data['product_count'] <= product.json()['count']:
+            if data['product_count'] - data['reserved_product'] <= product.json()['count']:
                 order = Order(user_id=data.pop('user_id', None), amount=data.pop('amount', None))
                 session.add(order)
                 session.commit()
@@ -64,6 +64,8 @@ def set_order():
                 session.commit()
                 publish('order_created', {'order_id': order.id, 'amount': order.amount,
                                           'user_id': order.user_id, 'product_count': data['product_count']})
+                publish_warehouse('reserve_product', {'order_id': order.id, 'amount': order.amount,
+                                                      'user_id': order.user_id, 'product_count': data['product_count']})
                 return jsonify({"status": 200, "order_details_id": order_details.id})
             else:
                 return jsonify({"status": 200, "info": "this item with this amount does not exist!"})

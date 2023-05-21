@@ -52,6 +52,7 @@ class Product(Base):
     category_id: int
     create_at: str
     updated_at: str
+    reserved_product: int
 
     __tablename__ = 'product_table'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -59,6 +60,7 @@ class Product(Base):
     price = Column(FLOAT, nullable=False)
     brand = Column(String(100), nullable=False)
     count = Column(Integer, nullable=False)
+    reserved_product = Column(Integer, nullable=True, default=0)
     location = Column(String(50), nullable=False)
     description = Column(Text, nullable=False)
 
