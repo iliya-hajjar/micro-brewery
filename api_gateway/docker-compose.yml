@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  api_gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python gateway.py'
+    ports:
+      - 8006:5000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/app
+    networks:
+      - project_tok
+
+networks:
+  project_tok:
+    name: project_tok

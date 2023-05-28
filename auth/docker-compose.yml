@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  backend:
+  auth:
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,6 +13,8 @@ services:
       - .:/app
     depends_on:
       - db
+    networks:
+      - project_tok
 
   db:
     image: mysql:5.7
@@ -26,3 +28,9 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - 33080:3306
+    networks:
+      - project_tok
+
+networks:
+  project_tok:
+    name: project_tok

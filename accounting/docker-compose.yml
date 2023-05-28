@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  backend:
+  accounting:
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,6 +13,8 @@ services:
       - .:/app
     depends_on:
       - db
+    networks:
+      - project_tok
 
   queue:
     build:
@@ -21,6 +23,8 @@ services:
     command: 'python -u consumer.py'
     depends_on:
       - db
+    networks:
+      - project_tok
 
   db:
     image: mysql:5.7.22
@@ -34,3 +38,9 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - 33066:3306
+    networks:
+      - project_tok
+
+networks:
+  project_tok:
+    name: project_tok
