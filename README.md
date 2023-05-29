@@ -1,5 +1,5 @@
 This is a microbrewery project under the name projectok. This whole project consists of 3 services Accounting, Sales and Warehouse. I've started 
-to code this project on 18th of May and spent 4-5 days up to this point.
+to code this project on 18th of May and spent 7-8 days up to this point.
 
 ## Techincal details of the project
 
@@ -9,23 +9,32 @@ All three services dockerzied and as database I use MySql for all the services. 
 - Framework: Flask
 - Dataase: MySql
 - ORM: SqlAlchemy
-- Pub/Sub: rabbitmq
+- Message queue: rabbitmq
 - testing: pytest
 
 ### Warehouse:
 - Framework: Flask
 - Dataase: MySql
 - ORM: SqlAlchemy
-- Pub/Sub: rabbitmq
+- Message queue: rabbitmq
 - testing: pytest
 
 ### Sales:
 - Framework: Django
 - Dataase: MySql
 - ORM: Django
-- Pub/Sub: rabbitmq
+- Message queue: rabbitmq
 - API: DRF (exposing by Swagger)
 - testing: native of django
+
+### Auth:
+- Framework: Flask
+- Dataase: MySql
+- ORM: SqlAlchemy
+
+### API_gateway:
+- Framework: Flask
+- Web server: NGINX
 
 
 And the whole schema of the project :
@@ -40,13 +49,10 @@ And the whole schema of the project :
 - python: 3.9
 
 
-### My goal
-
-My goal was to add one more service auth as an API gateway but with the time I've got this was all I could do.
-
-### Improvementa
+### Improvements
 
 - Complete tests for all services
 - Add CI/CD pipeline
 - Add precommit to apply flake8 and black
 - Add manager to all SqlAlchemy based services to have migrations
+- Add logger
