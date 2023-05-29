@@ -1,9 +1,8 @@
-This is a microbrewery project under the name projectok. This whole project consists of 3 services Accounting, Sales and Warehouse. I've started 
-to code this project on 18th of May and spent 7-8 days up to this point.
+This is a microbrewery project under the name projectok. This whole project consists of 5 services Accounting, Sales, Warehouse, Auth and API_gateway. All services need authentication and there is no access to the services from outside. The whole communication is through gateway which is using flask and NGINX. I've started to code this project on 18th of May and spent 7-8 days up to this point.
 
 ## Techincal details of the project
 
-All three services dockerzied and as database I use MySql for all the services. Technical details of each services are as follows:
+All three services dockerzied and as a database I useed MySql for all the services. Technical details of each services are as follows:
 
 ### Sales:
 - Framework: Flask
