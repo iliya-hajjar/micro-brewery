@@ -3,7 +3,6 @@ from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from apps.transaction import urls as transaction_urls
-from apps.user import urls as user_urls
 
 
 schema_view = get_schema_view(
@@ -21,5 +20,4 @@ urlpatterns = [
     url(r'^docs/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/transaction/', include(transaction_urls)),
-    path('api/v1/user/', include(user_urls)),
 ]

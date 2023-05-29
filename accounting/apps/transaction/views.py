@@ -33,7 +33,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer.save()
         if transaction.is_confirmed:
             payload = {"transaction_id": transaction.id}
-            requests.request("PUT", f"http://host.docker.internal:8002/api/v1/order/{transaction.order_id}",
+            requests.request("PUT", f"http://sales:8002/api/v1/order/{transaction.order_id}",
                              headers={'Content-Type': 'application/json'}, data=payload)
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 

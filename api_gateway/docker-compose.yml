@@ -12,8 +12,8 @@ services:
     volumes:
       - .:/app
     networks:
-      - project_tok
+      - project_ok
 
 networks:
-  project_tok:
-    name: project_tok
+  project_ok:
+    name: project_ok

@@ -19,6 +19,7 @@ class Payment(models.Model):
 
 class Transaction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_id = models.IntegerField()
     order_id = models.UUIDField()
     amount = models.FloatField()
     description = models.TextField()
