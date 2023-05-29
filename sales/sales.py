@@ -10,11 +10,11 @@ from producer import publish, publish_warehouse
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db/sales'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@sales_db/sales'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
-engine = create_engine("mysql+pymysql://someone:someone@db/sales")
+engine = create_engine("mysql+pymysql://someone:someone@sales_db/sales")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()

@@ -12,11 +12,11 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
+      - db_auth
     networks:
-      - project_tok
+      - project_ok
 
-  db:
+  db_auth:
     image: mysql:5.7
     restart: always
     environment:
@@ -29,8 +29,8 @@ services:
     ports:
       - 33080:3306
     networks:
-      - project_tok
+      - project_ok
 
 networks:
-  project_tok:
-    name: project_tok
+  project_ok:
+    name: project_ok

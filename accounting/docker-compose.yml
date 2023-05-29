@@ -12,9 +12,9 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
+      - db_accounting
     networks:
-      - project_tok
+      - project_ok
 
   queue:
     build:
@@ -22,11 +22,11 @@ services:
       dockerfile: Dockerfile
     command: 'python -u consumer.py'
     depends_on:
-      - db
+      - db_accounting
     networks:
-      - project_tok
+      - project_ok
 
-  db:
+  db_accounting:
     image: mysql:5.7.22
     restart: always
     environment:
@@ -39,8 +39,8 @@ services:
     ports:
       - 33066:3306
     networks:
-      - project_tok
+      - project_ok
 
 networks:
-  project_tok:
-    name: project_tok
+  project_ok:
+    name: project_ok
