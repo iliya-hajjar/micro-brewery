@@ -4,37 +4,6 @@ This is a microbrewery project under the name projectok. This whole project cons
 
 All three services dockerzied and as a database I useed MySql for all the services. Technical details of each services are as follows:
 
-### Sales:
-- Framework: Flask
-- Dataase: MySql
-- ORM: SqlAlchemy
-- Message queue: rabbitmq
-- testing: pytest
-
-### Warehouse:
-- Framework: Flask
-- Dataase: MySql
-- ORM: SqlAlchemy
-- Message queue: rabbitmq
-- testing: pytest
-
-### Sales:
-- Framework: Django
-- Dataase: MySql
-- ORM: Django
-- Message queue: rabbitmq
-- API: DRF (exposing by Swagger)
-- testing: native of django
-
-### Auth:
-- Framework: Flask
-- Dataase: MySql
-- ORM: SqlAlchemy
-
-### API_gateway:
-- Framework: Flask
-- Web server: NGINX
-
 
 And the whole schema of the project :
 
