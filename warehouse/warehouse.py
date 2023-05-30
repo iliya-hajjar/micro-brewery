@@ -6,11 +6,11 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db_warehouse/warehouse'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db_warehouse:3306/warehouse'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
-engine = create_engine("mysql+pymysql://someone:someone@db_warehouse/warehouse")
+engine = create_engine("mysql+pymysql://someone:someone@db_warehouse:3306/warehouse")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()

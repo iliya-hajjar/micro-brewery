@@ -10,11 +10,11 @@ from producer import publish, publish_warehouse
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@sales_db/sales'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@sales_db:3306/sales'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
-engine = create_engine("mysql+pymysql://someone:someone@sales_db/sales")
+engine = create_engine("mysql+pymysql://someone:someone@sales_db:3306/sales")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -52,10 +52,11 @@ def update_order(order_id):
 def set_order():
     try:
         data = request.get_json()
-        product = requests.get(f'http://host.docker.internal:8001/api/v1/product/{data["product_id"]}')
+        product = requests.get(f'http://warehouse:5000/api/v1/product/{data["product_id"]}')
         if product.status_code == 200:
-            if data['product_count'] - data['reserved_product'] <= product.json()['count']:
+            if product.json()['reserved_product'] - data['product_count'] <= product.json()['count']:
                 order = Order(user_id=data.pop('user_id', None), amount=data.pop('amount', None))
+                payment_id = data.pop('payment_id', None)
                 session.add(order)
                 session.commit()
                 data['order_id'] = order.id
@@ -63,9 +64,11 @@ def set_order():
                 session.add(order_details)
                 session.commit()
                 publish('order_created', {'order_id': order.id, 'amount': order.amount,
-                                          'user_id': order.user_id, 'product_count': data['product_count']})
+                                          'user_id': order.user_id, 'product_count': data['product_count'],
+                                          'payment_id': payment_id})
                 publish_warehouse('reserve_product', {'order_id': order.id, 'amount': order.amount,
-                                                      'user_id': order.user_id, 'product_count': data['product_count']})
+                                                      'user_id': order.user_id, 'product_count': data['product_count'],
+                                                      'product_id': data["product_id"]})
                 return jsonify({"status": 200, "order_details_id": order_details.id})
             else:
                 return jsonify({"status": 200, "info": "this item with this amount does not exist!"})

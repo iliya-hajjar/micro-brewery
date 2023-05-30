@@ -5,16 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     command: 'python warehouse.py'
-    ports:
-      - 8001:5000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # ports:
+    #   - 8001:5000
     volumes:
       - .:/app
     depends_on:
       - db_warehouse
     networks:
-      - project_ok
+      - project_tok
 
   queue:
     build:
@@ -24,7 +22,9 @@ services:
     depends_on:
       - db_warehouse
     networks:
-      - project_ok
+      - project_tok
+      - internet
+
 
   db_warehouse:
     image: mysql:5.7
@@ -36,11 +36,13 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql
-    ports:
-      - 33069:3306
     networks:
-      - project_ok
+      - project_tok
+    expose:
+      - 3306
 
 networks:
-  project_ok:
-    name: project_ok
+  project_tok:
+    name: project_tok
+  internet:
+    name: internet

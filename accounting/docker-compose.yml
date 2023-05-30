@@ -5,16 +5,16 @@ services:
       context: .
       dockerfile: Dockerfile
     command: 'python manage.py runserver 0.0.0.0:8000'
-    ports:
-      - 8000:8000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # ports:
+    #   - 8000:8000
     volumes:
       - .:/app
     depends_on:
       - db_accounting
     networks:
-      - project_ok
+      - project_tok
+    expose:
+      - 8000
 
   queue:
     build:
@@ -24,7 +24,8 @@ services:
     depends_on:
       - db_accounting
     networks:
-      - project_ok
+      - project_tok
+      - internet
 
   db_accounting:
     image: mysql:5.7.22
@@ -36,11 +37,13 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql
-    ports:
-      - 33066:3306
     networks:
-      - project_ok
+      - project_tok
+    expose:
+      - 3306
 
 networks:
-  project_ok:
-    name: project_ok
+  project_tok:
+    name: project_tok
+  internet:
+    name: internet

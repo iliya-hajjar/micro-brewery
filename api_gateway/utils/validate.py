@@ -11,7 +11,7 @@ def token(request):
         return None, ("missing credentials", 401)
 
     response = requests.post(
-        "http://host.docker.internal:8004/validate",
+        "http://auth:5000/validate",
         headers={"Authorization": token},
     )
 

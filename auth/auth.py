@@ -6,10 +6,10 @@ from schema import Base, User
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db_auth/sales'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db_auth:3306/auth'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-engine = create_engine("mysql+pymysql://someone:someone@db_auth/sales")
+engine = create_engine("mysql+pymysql://someone:someone@db_auth:3306/auth")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
