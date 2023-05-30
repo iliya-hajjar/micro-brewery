@@ -2,10 +2,8 @@ This is a microbrewery project under the name projectok. This whole project cons
 
 ## Techincal details of the project
 
-All three services dockerzied and as a database I useed MySql for all the services. Technical details of each services are as follows:
+All three services dockerzied and as a database I used MySql for all the services. Diagram of the whole project:
 
-
-And the whole schema of the project :
 
 ![Alt text](cloudsigma.png?raw=true "Schema")
 
