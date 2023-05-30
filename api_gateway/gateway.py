@@ -26,7 +26,7 @@ def signup():
         "email": data['email'],
         "password": data['password'],
     })
-    response = requests.request("POST", "http://host.docker.internal:8004/signup",
+    response = requests.request("POST", "http://auth:5000/signup",
                                 headers={'Content-Type': 'application/json'},
                                 data=payload_signup)
     if response.status_code == 200:
@@ -42,7 +42,7 @@ def get_category(id):
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/category/{id}").json()
+        response = requests.request("GET", f"http://warehouse:5000/api/v1/category/{id}").json()
         return jsonify(response)
     except Exception as e:
         abort(400, 'Can not add new category !')
@@ -50,21 +50,18 @@ def get_category(id):
 
 @server.route('/category', methods=['POST'], strict_slashes=False)
 def set_category():
-    if request.method == 'POST':
-        access, err = validate.token(request)
+    access, err = validate.token(request)
 
-        if err:
-            return err
-        try:
-            data = request.get_json()
-            response = requests.request("POST", "http://host.docker.internal:8001/api/v1/category",
-                                        headers={'Content-Type': 'application/json'},
-                                        data=json.dumps(data))
-            return response
-        except Exception as e:
-            abort(400, 'Can not add new category !')
-    else:
-        abort(400, 'Wrong method')
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("POST", "http://warehouse:5000/api/v1/category",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return jsonify(response)
+    except Exception as e:
+        abort(400, 'Can not add new category !')
 
 
 @server.route('/suppliers', methods=['GET'], strict_slashes=False)
@@ -74,7 +71,7 @@ def get_suppliers():
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/suppliers").json()
+        response = requests.request("GET", f"http://warehouse:5000/api/v1/suppliers").json()
         return jsonify(response)
     except Exception as e:
         abort(400, 'Can not add new category !')
@@ -87,7 +84,7 @@ def get_supplier(id):
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/supplier/{id}").json()
+        response = requests.request("GET", f"http://warehouse:5000/api/v1/supplier/{id}").json()
         return jsonify(response)
     except Exception as e:
         abort(400, 'Can not add new category !')
@@ -95,21 +92,18 @@ def get_supplier(id):
 
 @server.route('/supplier', methods=['POST'], strict_slashes=False)
 def set_supplier():
-    if request.method == 'POST':
-        access, err = validate.token(request)
+    access, err = validate.token(request)
 
-        if err:
-            return err
-        try:
-            data = request.get_json()
-            response = requests.request("POST", "http://host.docker.internal:8001/api/v1/supplier",
-                                        headers={'Content-Type': 'application/json'},
-                                        data=json.dumps(data)).json()
-            return response
-        except Exception as e:
-            abort(400, 'Can not add new category !')
-    else:
-        abort(400, 'Wrong method')
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("POST", "http://warehouse:5000/api/v1/supplier",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return response
+    except Exception as e:
+        abort(400, 'Can not add new category !')
 
 
 @server.route('/products', methods=['GET'], strict_slashes=False)
@@ -119,10 +113,10 @@ def get_products():
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/products").json()
+        response = requests.request("GET", f"http://warehouse:5000/api/v1/products").json()
         return jsonify(response)
     except Exception as e:
-        abort(400, 'Can not add new category !')
+        abort(400, 'Can not get new products !')
 
 
 @server.route('/product/<int:id>', methods=['GET'], strict_slashes=False)
@@ -132,29 +126,26 @@ def get_product(id):
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/product/{id}").json()
+        response = requests.request("GET", f"http://warehouse:5000/api/v1/product/{id}").json()
         return jsonify(response)
     except Exception as e:
-        abort(400, 'Can not add new category !')
+        abort(400, 'Can not add new product !')
 
 
 @server.route('/product', methods=['POST'], strict_slashes=False)
 def set_product():
-    if request.method == 'POST':
-        access, err = validate.token(request)
+    access, err = validate.token(request)
 
-        if err:
-            return err
-        try:
-            data = request.get_json()
-            response = requests.request("POST", "http://host.docker.internal:8001/api/v1/product",
-                                        headers={'Content-Type': 'application/json'},
-                                        data=json.dumps(data)).json()
-            return response
-        except Exception as e:
-            abort(400, 'Can not add new category !')
-    else:
-        abort(400, 'Wrong method')
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("POST", "http://warehouse:5000/api/v1/product",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return response
+    except Exception as e:
+        abort(400, 'Can not add new category !')
 
 
 @server.route('/order/<int:id>', methods=['GET'], strict_slashes=False)
@@ -164,7 +155,20 @@ def get_order(id):
     if err:
         return err
     try:
-        response = requests.request("GET", f"http://host.docker.internal:8001/api/v1/order_detail/{id}").json()
+        response = requests.request("GET", f"http://sales:5000/api/v1/order_detail/{id}").json()
+        return jsonify(response)
+    except Exception as e:
+        abort(400, 'Can not add new category !')
+
+
+@server.route('/orders', methods=['GET'], strict_slashes=False)
+def get_orders():
+    access, err = validate.token(request)
+
+    if err:
+        return err
+    try:
+        response = requests.request("GET", f"http://sales:5000/api/v1/order_details").json()
         return jsonify(response)
     except Exception as e:
         abort(400, 'Can not add new category !')
@@ -172,21 +176,76 @@ def get_order(id):
 
 @server.route('/order', methods=['POST'], strict_slashes=False)
 def set_order():
-    if request.method == 'POST':
-        access, err = validate.token(request)
+    access, err = validate.token(request)
 
-        if err:
-            return err
-        try:
-            data = request.get_json()
-            response = requests.request("POST", "http://host.docker.internal:8001/api/v1/order_detail",
-                                        headers={'Content-Type': 'application/json'},
-                                        data=json.dumps(data)).json()
-            return response
-        except Exception:
-            abort(400, 'Can not add new category !')
-    else:
-        abort(400, 'Wrong method')
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("POST", "http://sales:5000/api/v1/order_detail",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return response
+    except Exception:
+        abort(400, 'Can not add new category !')
+
+
+@server.route('/payment', methods=['POST'], strict_slashes=False)
+def set_payment():
+    access, err = validate.token(request)
+
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("POST", "http://accounting:8000/api/v1/transaction/payments",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return response
+    except Exception:
+        abort(400, 'Can not add new category !')
+
+
+@server.route('/payment', methods=['GET'], strict_slashes=False)
+def get_payment():
+    access, err = validate.token(request)
+
+    if err:
+        return err
+    try:
+        response = requests.request("GET", f"http://accounting:8000/api/v1/transaction/payments").json()
+        return jsonify(response)
+    except Exception as e:
+        abort(400, 'Can not add new category !')
+
+
+@server.route('/transaction/<string:tx_id>', methods=['PUT'], strict_slashes=False)
+def update_transaction(tx_id):
+    access, err = validate.token(request)
+
+    if err:
+        return err
+    try:
+        data = request.get_json()
+        response = requests.request("PUT", f"http://accounting:8000/api/v1/transaction/transactions/{tx_id}",
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps(data)).json()
+        return response
+    except Exception:
+        abort(400, 'Can not add new category !')
+
+
+@server.route('/transactions', methods=['GET'], strict_slashes=False)
+def get_transactions():
+    access, err = validate.token(request)
+
+    if err:
+        return err
+    try:
+        response = requests.request("GET", f"http://accounting:8000/api/v1/transaction/transactions").json()
+        return jsonify(response)
+    except Exception as e:
+        abort(400, 'Can not add new category !')
 
 
 if __name__ == "__main__":

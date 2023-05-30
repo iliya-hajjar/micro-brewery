@@ -1,20 +1,19 @@
 version: '3.8'
 services:
   sales:
+    container_name: sales
+    hostname: sales
     build:
       context: .
       dockerfile: Dockerfile
     command: 'python sales.py'
-    ports:
-      - 8002:5000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
     depends_on:
       - sales_db
     networks:
-      - project_ok
+      - project_tok
+      - internet
 
   queue:
     build:
@@ -24,7 +23,9 @@ services:
     depends_on:
       - sales_db
     networks:
-      - project_ok
+      - project_tok
+      - internet
+
 
   sales_db:
     image: mysql:5.7
@@ -36,12 +37,14 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql
-    ports:
-      - 33067:3306
     networks:
-      - project_ok
+      - project_tok
+    expose:
+      - 3306
 
 
 networks:
-  project_ok:
-    name: project_ok
+  project_tok:
+    name: project_tok
+  internet:
+    name: internet

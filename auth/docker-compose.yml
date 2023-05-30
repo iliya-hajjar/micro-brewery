@@ -1,36 +1,36 @@
 version: '3.8'
 services:
   auth:
+    container_name: auth
+    hostname: auth
     build:
       context: .
       dockerfile: Dockerfile
     command: 'python auth.py'
-    ports:
-      - 8004:5000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
     depends_on:
       - db_auth
     networks:
-      - project_ok
+      - project_tok
 
   db_auth:
+    hostname: db_auth
+    container_name: db_auth
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: sales
+      MYSQL_DATABASE: auth
       MYSQL_USER: someone
       MYSQL_PASSWORD: someone
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql
-    ports:
-      - 33080:3306
+    expose:
+      - 3306
     networks:
-      - project_ok
+      - project_tok
 
 networks:
-  project_ok:
-    name: project_ok
+  project_tok:
+    name: project_tok

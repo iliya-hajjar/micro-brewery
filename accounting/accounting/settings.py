@@ -25,7 +25,7 @@ SECRET_KEY = 'vooz%of7wqo5k6$6a@u14#!866z&jr^3ji1rtv&61xv#m=t3dj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'accounting',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'db',
+        'HOST': 'db_accounting',
         'PORT': '3306',
     }
 }
@@ -135,7 +135,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 
-AUTH_USER_MODEL = "user.User"
 
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {

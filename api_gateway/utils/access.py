@@ -9,7 +9,7 @@ def login(request):
     basicAuth = (auth.username, auth.password)
 
     response = requests.post(
-        "http://host.docker.internal:8004/login", auth=basicAuth
+        "http://auth:5000/login", auth=basicAuth
     )
 
     if response.status_code == 200:

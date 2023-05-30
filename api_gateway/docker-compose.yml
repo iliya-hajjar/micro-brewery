@@ -4,16 +4,29 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: api_gateway
+    hostname: api_gateway
+    restart: always
     command: 'python gateway.py'
-    ports:
-      - 8006:5000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
     networks:
-      - project_ok
+      - project_tok
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_nginx
+    container_name: nginx
+    hostname: nginx
+    restart: always
+    networks:
+      - project_tok
+      - internet
+    ports:
+      - 80:80
 
 networks:
-  project_ok:
-    name: project_ok
+  project_tok:
+    name: project_tok
+  internet:
+    name: internet

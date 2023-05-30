@@ -1,9 +1,9 @@
 import pika, json, os, django
-from apps.transaction.models import Transaction, Payment
-
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "accounting.settings")
 django.setup()
+
+from apps.transaction.models import Transaction, Payment
 
 
 params = pika.URLParameters('amqps://cjkiqrbh:M8HPj_fVGOwvCC4lMWYnol_9LHPeOrx1@woodpecker.rmq.cloudamqp.com/cjkiqrbh')
@@ -20,10 +20,9 @@ def callback(ch, method, properties, body):
     order_data = json.loads(body)
 
     if properties.content_type == 'order_created':
-        payment_type = Payment.objects.get(id=1)
+        payment_type = Payment.objects.get(id=order_data['payment_id'])
         transaction = Transaction.objects.create(order_id=order_data['order_id'],
-                                                 amount=order_data["amount"], is_confirmed=True,
-                                                 payment_type=payment_type)
+                                                 amount=order_data["amount"], payment_type=payment_type)
         print(f'Transaction created {transaction.id}')
 
 
