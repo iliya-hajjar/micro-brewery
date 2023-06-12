@@ -20,7 +20,7 @@ class Payment(models.Model):
 class Transaction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.IntegerField(null=True)
-    order_id = models.UUIDField()
+    order_id = models.IntegerField(null=True)
     amount = models.FloatField()
     description = models.TextField()
     payment_type = models.ForeignKey(Payment, on_delete=models.CASCADE)
