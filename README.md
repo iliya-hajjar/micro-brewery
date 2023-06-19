@@ -26,7 +26,7 @@ All three services dockerzied and as a database I used MySql for all the service
 - Add logger
 
 
-### Recommended updates
+### Recommended improvements
 
 - As administrator of the system I want to add a new item in Warehouse
 - As Administrator of the system I want to put a price of an item in the warehouse
