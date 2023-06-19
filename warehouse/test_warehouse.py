@@ -1,7 +1,3 @@
-"""
-Because of the time limit did not finish test but the concept is clear we can do the following tests for all
-other endpoints.
-"""
 import requests
 import json
 
