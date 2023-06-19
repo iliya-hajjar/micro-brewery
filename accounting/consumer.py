@@ -22,7 +22,8 @@ def callback(ch, method, properties, body):
     if properties.content_type == 'order_created':
         payment_type = Payment.objects.get(id=order_data['payment_id'])
         transaction = Transaction.objects.create(order_id=order_data['order_id'],
-                                                 amount=order_data["amount"], payment_type=payment_type)
+                                                 amount=order_data["amount"], payment_type=payment_type,
+                                                 user_id=order_data["user_id"])
         print(f'Transaction created {transaction.id}')
 
 

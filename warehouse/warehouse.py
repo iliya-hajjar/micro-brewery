@@ -38,6 +38,21 @@ def set_product():
         abort(400, e)
 
 
+@app.route('/api/v1/product/<int:product_id>', methods=['PUT'])
+def update_product(product_id):
+    try:
+        data = request.get_json()
+        product = session.query(Product).filter_by(id=product_id).first()
+        if not product:
+            return jsonify({'error': 'Product not found'}), 404
+        product.count = data['count']
+        product.price = data['price']
+        session.commit()
+        return jsonify({"status": 200, "id": product.id})
+    except Exception as e:
+        abort(400, e)
+
+
 @app.route('/api/v1/suppliers', methods=['GET'])
 def get_suppliers():
     return jsonify(session.query(Supplier).all())

@@ -33,7 +33,7 @@ def get_order(id):
     return jsonify(order_details_data)
 
 
-@app.route('/api/v1/order/<string:order_id>', methods=['PUT'], strict_slashes=False)
+@app.route('/api/v1/order/<int:order_id>', methods=['PUT'], strict_slashes=False)
 def update_order(order_id):
     order = session.query(Order).filter_by(id=order_id).first()
     order_detail = session.query(OrderDetails).filter_by(order_id=order_id).first()
@@ -64,10 +64,8 @@ def set_order():
                 session.add(order_details)
                 session.commit()
                 publish('order_created', {'order_id': order.id, 'amount': order.amount,
-                                          'user_id': order.user_id, 'product_count': data['product_count'],
-                                          'payment_id': payment_id})
-                publish_warehouse('reserve_product', {'order_id': order.id, 'amount': order.amount,
-                                                      'user_id': order.user_id, 'product_count': data['product_count'],
+                                          'user_id': order.user_id, 'payment_id': payment_id})
+                publish_warehouse('reserve_product', {'product_count': data['product_count'],
                                                       'product_id': data["product_id"]})
                 return jsonify({"status": 200, "order_details_id": order_details.id})
             else:
