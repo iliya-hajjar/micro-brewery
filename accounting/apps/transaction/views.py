@@ -28,6 +28,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         transaction = Transaction.objects.get(id=pk)
+        if transaction.is_confirmed == True:
+            return Response({"message": "this transaction has confirmed !"}, status=status.HTTP_202_ACCEPTED)
         serializer = TransactionSerializer(instance=transaction, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

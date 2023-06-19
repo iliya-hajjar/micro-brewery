@@ -33,7 +33,7 @@ def get_order(id):
     return jsonify(order_details_data)
 
 
-@app.route('/api/v1/order/<string:order_id>', methods=['PUT'], strict_slashes=False)
+@app.route('/api/v1/order/<int:order_id>', methods=['PUT'], strict_slashes=False)
 def update_order(order_id):
     order = session.query(Order).filter_by(id=order_id).first()
     order_detail = session.query(OrderDetails).filter_by(order_id=order_id).first()
