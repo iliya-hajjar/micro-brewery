@@ -17,7 +17,7 @@ All three services dockerzied and as a database I used MySql for all the service
 
 ### Improvements
 
--[] Complete tests for all services
+-[ ] Complete tests for all services
 
 -[] Add CI/CD pipeline
 
