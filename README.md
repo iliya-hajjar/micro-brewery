@@ -22,3 +22,11 @@ All three services dockerzied and as a database I used MySql for all the service
 - Add precommit to apply flake8 and black
 - Add manager to all SqlAlchemy based services to have migrations
 - Add logger
+
+
+### Recommended updates
+
+- As administrator of the system I want to add a new item in Warehouse
+- As Administrator of the system I want to put a price of an item in the warehouse
+- As user of the system I want to buy maximum quantity of given item
+- As user of the system I want to see an error message if the quantity available is insufficient
