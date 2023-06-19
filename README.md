@@ -18,7 +18,11 @@ All three services dockerzied and as a database I used MySql for all the service
 ### Improvements
 
 [] Complete tests for all services
+
 [] Add CI/CD pipeline
+
 [] Add precommit to apply flake8 and black
+
 [] Add manager to all SqlAlchemy based services to have migrations
+
 [] Add logger
