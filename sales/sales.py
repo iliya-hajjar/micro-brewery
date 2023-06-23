@@ -14,7 +14,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@sales_db:3306/s
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
-engine = create_engine("mysql+pymysql://someone:someone@sales_db:3306/sales")
+engine = create_engine("mysql+pymysql://someone:someone@sales_db:3306/sales", pool_recycle=3600)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()

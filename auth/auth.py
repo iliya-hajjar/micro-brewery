@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@db_auth:3306/auth'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-engine = create_engine("mysql+pymysql://someone:someone@db_auth:3306/auth")
+engine = create_engine("mysql+pymysql://someone:someone@db_auth:3306/auth", pool_recycle=3600)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
