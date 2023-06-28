@@ -16,6 +16,16 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
+try:
+    engine = create_engine("mysql+pymysql://someone:someone@db_warehouse:3306/warehouse", pool_pre_ping=True)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+except sqlalchemy.exc.OperationalError as e:
+    session.rollback()
+    print(e)
+
+
 @app.route('/api/v1/products', methods=['GET'])
 def get_products():
     return jsonify(session.query(Product).all())

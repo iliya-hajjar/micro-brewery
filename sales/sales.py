@@ -14,10 +14,14 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://someone:someone@sales_db:3306/s
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 
-engine = create_engine("mysql+pymysql://someone:someone@sales_db:3306/sales", pool_recycle=3600)
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+try:
+    engine = create_engine("mysql+pymysql://someone:someone@sales_db:3306/sales", pool_pre_ping=True)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+except Exception as e:
+    session.rollback()
+    print(e)
 
 
 @app.route('/api/v1/order_details', methods=['GET'], strict_slashes=False)
@@ -71,7 +75,7 @@ def set_order():
             else:
                 return jsonify({"status": 200, "info": "this item with this amount does not exist!"})
         else:
-            abort(400, 'Can not add new order !')
+            abort(400, 'Can not add new order, warehouse did not return proper response !')
     except Exception as e:
         abort(400, 'Can not add new order !')
 
