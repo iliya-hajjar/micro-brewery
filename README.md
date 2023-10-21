@@ -7,7 +7,7 @@ This is a microbrewery project under the name projectok. This whole project cons
 All three services dockerzied and as a database I used MySql for all the services. Diagram of the whole project:
 
 
-![Alt text](cloudsigma.png?raw=true "Schema")
+![Alt text](microservices.png?raw=true "Schema")
 
 ### Version of the tools used for this project
 
@@ -36,8 +36,3 @@ All three services dockerzied and as a database I used MySql for all the service
 ### Specs of deployed version
 
 The address of the project is 31.171.250.136 and you can interact with it by the defined api routes. For example:
-
-- http://31.171.250.136/products [get]
-- http://31.171.250.136/product [post, put]
-
-and so on.
