@@ -6,7 +6,7 @@ django.setup()
 from apps.transaction.models import Transaction, Payment
 
 
-params = pika.URLParameters('amqps://cjkiqrbh:M8HPj_fVGOwvCC4lMWYnol_9LHPeOrx1@woodpecker.rmq.cloudamqp.com/cjkiqrbh')
+params = pika.URLParameters('')
 
 connection = pika.BlockingConnection(params)
 
