@@ -2,7 +2,7 @@ import pika, json
 from warehouse import session
 from schema import Product
 
-params = pika.URLParameters('amqps://cjkiqrbh:M8HPj_fVGOwvCC4lMWYnol_9LHPeOrx1@woodpecker.rmq.cloudamqp.com/cjkiqrbh')
+params = pika.URLParameters('')
 
 connection = pika.BlockingConnection(params)
 
