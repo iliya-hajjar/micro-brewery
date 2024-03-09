@@ -32,7 +32,3 @@ All three services dockerzied and as a database I used MySql for all the service
 - As Administrator of the system I want to put a price of an item in the warehouse
 - As user of the system I want to buy maximum quantity of given item
 - As user of the system I want to see an error message if the quantity available is insufficient
-
-### Specs of deployed version
-
-The address of the project is 31.171.250.136 and you can interact with it by the defined api routes. For example:
