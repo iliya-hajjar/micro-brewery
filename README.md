@@ -1,7 +1,6 @@
 ### Introduction
 
-This is a microbrewery project under the name projectok. This whole project consists of 5 services Accounting, Sales, Warehouse, Auth and API_gateway. All services need authentication and there is no access to the services from outside. The whole communication is through gateway which is using flask and NGINX. Although the tests are must, I could not complete tests for all projects because I could spend only enough time to implement my idea. I've started to code this project on 18th of May and spent 7-8 days up to this point overall.
-
+This is a microbrewery project under the name projectok. This whole project consists of 5 services Accounting, Sales, Warehouse, Auth and API_gateway. All services need authentication and there is no access to the services from outside. The whole communication is through gateway which is using flask and NGINX. Although the tests are must, I could not complete tests for all projects because I could spend only enough time to implement my idea. 
 ## Techincal details of the project
 
 All three services dockerzied and as a database I used MySql for all the services. Diagram of the whole project:
