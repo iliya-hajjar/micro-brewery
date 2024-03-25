@@ -19,7 +19,7 @@ except sqlalchemy.exc.OperationalError as e:
     print(e)
 
 
-JWT_SECRET = "foo"
+JWT_SECRET = ""
 
 
 @app.route("/login", methods=["POST"], strict_slashes=False)
